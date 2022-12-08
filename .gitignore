@@ -1,0 +1,59 @@
+Skip to content
+Search or jump to…
+Pull requests
+Issues
+Codespaces
+Marketplace
+Explore
+ 
+@sraduhin 
+sraduhin
+/
+python-project-51
+Public
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+Settings
+python-project-51/.gitignore
+@sraduhin
+sraduhin bug fix
+Latest commit 092fe7f 16 days ago
+ History
+ 1 contributor
+29 lines (23 sloc)  230 Bytes
+
+__pycache__/
+
+# venv
+.venv
+
+# vscode
+.vscode
+
+# dist
+dist/
+
+# downloads
+var/
+
+# Unit test / coverage
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+#mynotes
+notes.py
