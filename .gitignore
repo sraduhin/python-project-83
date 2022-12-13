@@ -41,6 +41,7 @@ dist/
 
 # env
 .env
+settings.py
 
 # downloads
 var/
