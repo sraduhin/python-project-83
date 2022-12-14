@@ -1,14 +1,19 @@
-import logging
-import psycopg2
 import datetime
+import logging
+import os
+import psycopg2
 
+from dotenv import load_dotenv
 from validators import url
+
 from flask import Flask, render_template, request, flash, get_flashed_messages, redirect, url_for
-from settings import DB_NAME, DB_USER, SECRET_KEY
 
 logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
 
-conn = psycopg2.connect(f'dbname={DB_NAME} user={DB_USER}')
+load_dotenv()
+DATABASE_URL = os.getenv('DATABASE_URL')
+SECRET_KEY = os.getenv('SECRET_KEY')
+conn = psycopg2.connect(DATABASE_URL)
 validate = url
 
 
