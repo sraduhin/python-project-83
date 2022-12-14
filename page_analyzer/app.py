@@ -8,7 +8,7 @@ from validators import url
 
 from flask import Flask, render_template, request, flash, get_flashed_messages, redirect, url_for
 
-logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
+# logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
 
 load_dotenv()
 DATABASE_URL = os.getenv('DATABASE_URL')
@@ -39,7 +39,7 @@ def get_urls():
 def get_url():
     data = request.form.to_dict()
     url = data['url']
-    logging.debug(f"requested url: {url}")
+    #logging.debug(f"requested url: {url}")
 
     success = validate(data['url'])
     if success:
@@ -55,11 +55,11 @@ def get_url():
         id = cur.fetchone()[0]
         cur.close()
         flash('Страница успешно добавлена', 'alert alert-info')
-        logging.debug(f"success status: {url}")
+        #logging.debug(f"success status: {url}")
         return redirect(url_for('show_url', id=id))
         
     flash('Некорректный URL', 'alert alert-danger')
-    logging.debug(f"incorrect url: {url}")
+    #logging.debug(f"incorrect url: {url}")
     return redirect(url_for('main'))
 
 @app.route('/urls/<int:id>')
