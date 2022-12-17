@@ -62,6 +62,7 @@ def get_url():
     if result:
         flash('Страница уже существует', 'alert alert-info')
         logging.info(f"Page already exist: {url}")
+        id = result[0]
     else:
         insert_string = f"""INSERT INTO urls (name, created_at)
                             VALUES ('{url}',
@@ -69,10 +70,12 @@ def get_url():
                         );"""
         cur.execute(insert_string)
         conn.commit()
+        cur.execute(query_string)
+        id = cur.fetchone()[0]
         cur.close()
         flash('Страница успешно добавлена', 'alert alert-info')
         logging.info(f"Success status: {url}")
-    return redirect(url_for('show_url', id=result[0]))
+    return redirect(url_for('show_url', id=id))
 
 
 @app.route('/urls/<int:id>')
