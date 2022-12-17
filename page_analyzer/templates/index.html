@@ -37,6 +37,7 @@
       </header>
       {% block urls %}
       {% block url %}
+      {% block page404 %}
       <main class="flex-grow-1">
         <div class="container-lg mt-3">
           <h1>
@@ -57,7 +58,9 @@
           </div>
         </div>
       </main>
-      {% endblock %}{% endblock %}
+      {% endblock %}
+      {% endblock %}
+      {% endblock %}
       <footer class="border-top py-3 mt-5 flex-shrink-0">
         <div class="container-lg">
           <div class="text-center">

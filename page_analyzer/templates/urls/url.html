@@ -38,7 +38,7 @@
     <h2 class="mt-5 mb-3">
      Проверки
     </h2>
-    <form action="/urls/2/checks" method="post">
+    <form action="{{ url_for('check_url', id=url[0] )}}" method="post">
      <input class="btn btn-primary" type="submit" value="Запустить проверку"/>
     </form>
     <div>
@@ -64,6 +64,29 @@
          Дата создания
         </th>
        </tr>
+       {% if checks %}
+       {% for check in checks %}
+       <tr>
+        <td>
+            {{ check[0] or ''}}
+        </td>
+        <td>
+            {{ check[2]}}
+        </td>
+        <td>
+            {{ check[3] or ''}}
+        </td>
+        <td>
+            {{ check[4] or ''}}
+        </td>
+        <td>
+            {{ check[5] or ''}}
+        </td>
+        <td>
+            {{ check[6].strftime('%Y-%m-%d') }}
+        </td>
+       </tr>
+       {% endfor %}{% endif %}
       </tbody>
      </table>
     </div>
