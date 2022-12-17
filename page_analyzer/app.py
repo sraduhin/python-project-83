@@ -12,7 +12,7 @@ from urllib.parse import urlparse
 from flask import (Flask, render_template, request, flash,
                    get_flashed_messages, redirect, url_for)
 
-# logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG)
 
 load_dotenv()
 DATABASE_URL = os.getenv('DATABASE_URL')
@@ -47,12 +47,12 @@ def get_url():
     url = data['url']
     url = urlparse(url)
     url = url.scheme + '://' + url.netloc
-    # logging.info(f"requested url: {url}")
+    logging.info(f"requested url: {url}")
 
     success = validate(data['url'])
     if not success:
         flash('Некорректный URL', 'alert alert-danger')
-        # logging.debug(f"incorrect url: {url}")
+        logging.debug(f"incorrect url: {url}")
         return redirect(url_for('main'))
 
     query_string = f"""SELECT id FROM urls WHERE name = '{url}'"""
@@ -61,7 +61,7 @@ def get_url():
     result = cur.fetchone()
     if result:
         flash('Страница уже существует', 'alert alert-info')
-        # logging.info(f"Page already exist: {url}")
+        logging.info(f"Page already exist: {url}")
     else:
         insert_string = f"""INSERT INTO urls (name, created_at)
                             VALUES ('{url}',
@@ -71,7 +71,7 @@ def get_url():
         conn.commit()
         cur.close()
         flash('Страница успешно добавлена', 'alert alert-info')
-        # logging.info(f"Success status: {url}")
+        logging.info(f"Success status: {url}")
     return redirect(url_for('show_url', id=result[0]))
 
 
@@ -83,7 +83,7 @@ def show_url(id):
     cur.execute(query_string)
     url = cur.fetchone()
     if not url:
-        # logging.error(f"Unknown page id: {id}")
+        logging.error(f"Unknown page id: {id}")
         return render_template('page404.html'), 404
     query_string = f"SELECT * FROM url_checks WHERE url_id = {id};"
     cur.execute(query_string)
@@ -104,7 +104,7 @@ def check_url(id):
         r = requests.get(url)
         r.raise_for_status()
     except (requests.RequestException):
-        # logging.error(f"request error: {url}")
+        logging.error(f"request error: {url}")
         flash('Произошла ошибка при проверке', 'alert alert-danger')
         return redirect(url_for('show_url', id=id))
     code = r.status_code
@@ -135,5 +135,5 @@ def check_url(id):
 
 @app.errorhandler(404)
 def not_found(error):
-    # logging.error(f'Error: {error}')
+    logging.error(f'Error: {error}')
     return render_template('page404.html'), 404
