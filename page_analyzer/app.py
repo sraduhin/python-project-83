@@ -111,7 +111,7 @@ def check_url(id):
         flash('Произошла ошибка при проверке', 'alert alert-danger')
         return redirect(url_for('show_url', id=id))
     code = r.status_code
-    soup = BeautifulSoup(r.text, 'html')
+    soup = BeautifulSoup(r.text, 'html.parser')
     db_values = {
         'url_id': str(id),
         'status_code': str(code),
