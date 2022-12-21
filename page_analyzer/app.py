@@ -145,4 +145,4 @@ def check_url(id):
 @app.errorhandler(404)
 def not_found(error):
     logging.error(f'Error: {error}')
-    return render_template('page404.html'), 404
+    return render_template('page404.html')
