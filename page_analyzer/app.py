@@ -38,6 +38,7 @@ def get_urls():
     cur.execute(query_string)
     urls = cur.fetchall()
     cur.close()
+    conn.commit()
     return render_template('urls/urls.html', urls=urls)
 
 
@@ -59,6 +60,7 @@ def get_url():
     cur = conn.cursor()
     cur.execute(query_string)
     result = cur.fetchone()
+    conn.commit()
     if result:
         flash('Страница уже существует', 'alert alert-info')
         logging.info(f"Page already exist: {url}")
@@ -73,6 +75,7 @@ def get_url():
         cur.execute(query_string)
         id = cur.fetchone()[0]
         cur.close()
+        conn.commit()
         flash('Страница успешно добавлена', 'alert alert-info')
         logging.info(f"Success status: {url}")
     return redirect(url_for('show_url', id=id))
@@ -85,6 +88,7 @@ def show_url(id):
     query_string = f"SELECT * FROM urls WHERE id = {id};"
     cur.execute(query_string)
     url = cur.fetchone()
+    conn.commit()
     if not url:
         logging.error(f"Unknown page id: {id}")
         return render_template('page404.html'), 404
@@ -92,6 +96,7 @@ def show_url(id):
     cur.execute(query_string)
     checks = cur.fetchall()
     cur.close()
+    conn.commit()
     return render_template(
         'urls/url.html', url=url, checks=checks, messages=messages
     )
@@ -103,6 +108,7 @@ def check_url(id):
     query_string = f"SELECT name FROM urls WHERE id = {id};"
     cur.execute(query_string)
     url = cur.fetchone()[0]
+    conn.commit()
     try:
         r = requests.get(url)
         r.raise_for_status()
@@ -130,8 +136,8 @@ def check_url(id):
                         VALUES
                         ({', '.join(db_values.values())});"""
     cur.execute(insert_string)
-    conn.commit()
     cur.close()
+    conn.commit()
     flash('Страница успешно проверена', 'alert alert-info')
     return redirect(url_for('show_url', id=id))
 
