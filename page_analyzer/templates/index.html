@@ -51,7 +51,7 @@
                 Бесплатно проверяйте сайты на SEO пригодность
               </p>
               <form action="{{ url_for('get_url') }}" class="d-flex justify-content-center" method="post" required="">
-                <input class="form-control form-control-lg" name="url" placeholder="https://www.example.com" type="text" value=""/>
+                <input class="form-control form-control-lg" name="url" placeholder="https://www.example.com" type="text" value="{{ url }}">
                 <input class="btn btn-primary btn-lg ms-3 px-5 text-uppercase mx-3" type="submit" value="Проверить"/>
               </form>
             </div>
