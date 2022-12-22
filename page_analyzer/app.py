@@ -32,13 +32,6 @@ def main():
 
 
 @app.route('/urls')
-def invalid_url():
-    url = request.args.get('url') or ''
-    messages = get_flashed_messages(with_categories=True)
-    return render_template('index.html', messages=messages, url=url)
-
-
-@app.route('/urls')
 def get_urls():
     query_string = "SELECT * FROM urls;"
     cur = conn.cursor()
@@ -49,7 +42,7 @@ def get_urls():
     return render_template('urls/urls.html', urls=urls)
 
 
-@app.post('/')
+@app.post('/urls')
 def get_url():
     data = request.form.to_dict()
     unparsed_url = data['url']
@@ -61,7 +54,8 @@ def get_url():
     if not success:
         flash('Некорректный URL', 'alert alert-danger')
         logging.debug(f"incorrect url: {url}")
-        return redirect(url_for('invalid_url', url=unparsed_url))
+        messages = get_flashed_messages(with_categories=True)
+        return render_template('index.html', messages=messages, url=unparsed_url)
 
     query_string = f"""SELECT id FROM urls WHERE name = '{url}'"""
     cur = conn.cursor()
