@@ -55,7 +55,8 @@ def get_url():
         flash('Некорректный URL', 'alert alert-danger')
         logging.debug(f"incorrect url: {url}")
         messages = get_flashed_messages(with_categories=True)
-        return render_template('index.html', messages=messages, url=unparsed_url)
+        return render_template(
+            'index.html', messages=messages, url=unparsed_url), 422
 
     query_string = f"""SELECT id FROM urls WHERE name = '{url}'"""
     cur = conn.cursor()
