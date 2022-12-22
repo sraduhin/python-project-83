@@ -27,6 +27,12 @@ app.secret_key = SECRET_KEY
 
 @app.route('/')
 def main():
+    messages = get_flashed_messages(with_categories=True)
+    return render_template('index.html', messages=messages)
+
+
+@app.route('/urls')
+def invalid_url():
     url = request.args.get('url') or ''
     messages = get_flashed_messages(with_categories=True)
     return render_template('index.html', messages=messages, url=url)
@@ -55,7 +61,7 @@ def get_url():
     if not success:
         flash('Некорректный URL', 'alert alert-danger')
         logging.debug(f"incorrect url: {url}")
-        return redirect(url_for('main', url=unparsed_url))
+        return redirect(url_for('invalid_url', url=unparsed_url))
 
     query_string = f"""SELECT id FROM urls WHERE name = '{url}'"""
     cur = conn.cursor()
