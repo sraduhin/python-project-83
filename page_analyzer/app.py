@@ -1,18 +1,14 @@
 import logging
-import os
-
-from dotenv import load_dotenv
 
 from flask import (Flask, render_template, request, flash,
                    get_flashed_messages, redirect, url_for)
 
+from config import SECRET_KEY
 from page_analyzer import models
 from page_analyzer.utils import get_html_data, parse_and_validate
 
-logging.basicConfig(level=logging.DEBUG)
 
-load_dotenv()
-SECRET_KEY = os.getenv('SECRET_KEY')
+logging.basicConfig(level=logging.DEBUG)
 
 
 app = Flask(__name__)
